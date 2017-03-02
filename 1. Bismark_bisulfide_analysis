@@ -1,0 +1,2 @@
+#Preparing bisulfide converted reference genome for Bismark (in a directory containing only the hg35.fa)
+~/myprograms/Bismark/bismark_genome_preparation ./
