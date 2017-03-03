@@ -6,7 +6,7 @@
 ~/myprograms/Bismark/bismark --bowtie2 --multicore 62 --bam ../../hg38_bisulfite_genome/ -1 ./data/AML001_WGBS_combine_1.fq.gz -2 ./data/AML001_WGBS_combine_2.fq.gz
 
 
-#bismark_methylation_extractor
+######bismark_methylation_extractor--------------------------------------------------(not yet done)
 ~/myprograms/Bismark/bismark_methylation_extractor --multicore 60 --gzip --buffer_size 20G --paired-end --report --comprehensive --ample_memory --cytosine_report --CX_context --genome_folder ../HCT116 combine_hct116_WGBS_1_bismark_bt2_pe.bam
 #gave wrong genome_folder, disrupted cytosine_report generation
 #Re-run coverage2cytosine
