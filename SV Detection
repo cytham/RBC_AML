@@ -1,7 +1,29 @@
 
 
+# Map nanopore reads to hg38
 
+# Filter chimeric reads through SA tag in bam file
 
+# Extract fasta sequence of chimeric reads
 
-# Mapping nanopore-WGS proper high MAPQ reads back to hg38
-bwa mem -x ont2d -t 60 ~/resources/hg38/hg38.fa ./AML_001_run2_0_24_SV_WGS_properpair2_1.fastq ./AML_001_run2_0_24_SV_WGS_properpair2_2.fastq > AML_001_run2_0_24_SV_WGS_properpair2_hg38.sam
+# Blast chimeric reads againts hg38 
+
+# Remove Satellite DNA reads and identify plausible SVs reads through python script
+
+# Extract fasta sequence of SV reads
+
+# Map WGS reads to SV reads
+
+# Extract WGS reads with proper alignment and MAPQ >= 10
+
+samtools -q 10
+
+# Sort bam file according to read name
+samtools sort -@ 50 -n AML_001_run2_0_24_SV_WGS_properpair_MQ10.bam -o AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort.bam
+
+# Extract fastq file from bam
+samtools fastq -@ 50 -1 AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_1.fastq AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort.bam
+samtools fastq -@ 50 -2 AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_2.fastq AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort.bam
+
+# Mapping reads to hg38
+bwa mem -t 60 ~/resources/hg38/hg38.fa ./AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_1.fastq ./AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_2.fastq > AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38.sam
