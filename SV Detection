@@ -14,7 +14,7 @@
 
 # Map WGS reads to SV reads
 
-# Extract WGS reads with proper alignment and MAPQ >= 10
+# Extract WGS alignments with proper concordance and MAPQ >= 10
 
 samtools -q 10
 
@@ -27,3 +27,6 @@ samtools fastq -@ 50 -2 AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_2.fast
 
 # Mapping reads to hg38
 bwa mem -t 60 ~/resources/hg38/hg38.fa ./AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_1.fastq ./AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_2.fastq > AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38.sam
+
+# Extract alignmentswith improper concordance and MAPQ >=10, convert to sorted bam
+samtools view -F 2050 -q 10 -Sb AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38.sam | samtools sort - -o AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10.bam
