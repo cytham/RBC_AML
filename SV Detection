@@ -1,0 +1,7 @@
+
+
+
+
+
+# Mapping nanopore-WGS proper high MAPQ reads back to hg38
+bwa mem -x ont2d -t 60 ~/resources/hg38/hg38.fa ./AML_001_run2_0_24_SV_WGS_properpair2_1.fastq ./AML_001_run2_0_24_SV_WGS_properpair2_2.fastq > AML_001_run2_0_24_SV_WGS_properpair2_hg38.sam
