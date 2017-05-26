@@ -30,3 +30,9 @@ bwa mem -t 60 ~/resources/hg38/hg38.fa ./AML_001_run2_0_24_SV_WGS_properpair_MQ1
 
 # Extract alignmentswith improper concordance and MAPQ >=10, convert to sorted bam
 samtools view -F 2050 -q 10 -Sb AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38.sam | samtools sort - -o AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10.bam
+
+# Convert Bam to bed
+bedtools bamtobed -i AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10.bam > AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10.bed
+
+# Calling peaks from bed file
+macs2 callpeak -t AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10.bed -f BED -g hs -n AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10 -q 0.01 --nomodel
