@@ -30,10 +30,17 @@ for i in x:
 
 # Map nanopore reads to hg38 (BWA MEM)
 bwa mem -t 50 -x ont2d ../../../../hg38/hg38.fa ../AML_001_run2_0_24_.fasta > AML_001_run2_0_24_bwa.sam
+bwa mem -x ont2d -t 60 ~/resources/hg38/hg38.fa ./AML_001_run1_combine.fasta > AML_001_run1_combine_bwa.sam
 
-# Filter chimeric reads through SA tag in bam file
-
+# Filter chimeric reads through SA tag in sam file
+samtools view -F 2048 AML_001_run1_combine_bwa.sam | grep 'SA:Z' > AML_001_run1_combine_bwa_chimeric_temp.sam
+samtools view -H AML_001_run1_combine_bwa.sam > header
+cat header AML_001_run1_combine_bwa_chimeric_temp.sam > AML_001_run1_combine_bwa_chimeric.sam
+samtools view -Sb AML_001_run1_combine_bwa_chimeric.sam -o AML_001_run1_combine_bwa_chimeric.bam
+rm AML_001_run1_combine_bwa_chimeric_temp.sam
+rm header
 # Extract fasta sequence of chimeric reads
+samtools fasta -s AML_001_run1_combine_bwa_chimeric.fasta AML_001_run1_combine_bwa_chimeric.bam
 
 # Blast chimeric reads againts hg38 
 
