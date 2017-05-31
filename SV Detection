@@ -1,5 +1,13 @@
 
-#Extract fasta from fast5
+
+
+#Extract fasta from fast5 for AML001_run1 (pass_directory)
+for i in *; do h5dump -d /Analyses/Basecall_2D_000/BaseCalled_2D/Fastq $i | head -n 12 |tail -n +11 | perl -pe "s/.+\@/>/g" | perl -pe "s/^\s+//g" >> AML_001_run1_pass.fasta ;done
+
+#Extract fasta from fast5 for AML001_run1 (fail_directory)
+for i in *; do h5dump -d /Analyses/Basecall_1D_001/BaseCalled_template/Fastq $i| head -n 12 |tail -n +11 | perl -pe "s/.+\@/>/g" | perl -pe "s/^\s+//g" >> test; done
+
+#Extract fasta from fast5 for AML001_run2 (Albacore)
 for i in *; do h5dump -d /Analyses/Basecall_2D_000/BaseCalled_2D/Fastq $i | head -n 12 |tail -n +11 | perl -pe "s/.+\@/>/g" | perl -pe "s/^\s+//g" >> /home/cy/resources/AML_BM_fresh/minION_AML001/bwa_mapping_hg38/AML_001_run2_0.fasta; done
 
 # Map nanopore reads to hg38 (BWA MEM)
