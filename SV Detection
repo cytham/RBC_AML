@@ -43,6 +43,7 @@ rm header
 samtools fasta AML_001_run1_combine_bwa_chimeric.bam > AML_001_run1_combine_bwa_chimeric.fasta
 
 # Blast chimeric reads againts hg38 
+blastn -db ~/resources/blastDB/hg38.fa -query ./AML_001_run1_combine_bwa_chimeric.fasta -out AML_001_run1_combine_bwa_chimeric_blastn.txt -outfmt 6 -max_target_seqs 8 -culling_limit 1 -num_threads 60
 
 # Remove Satellite DNA reads and identify plausible SVs reads through python script
 
