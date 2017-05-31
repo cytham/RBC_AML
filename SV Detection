@@ -40,7 +40,7 @@ samtools view -Sb AML_001_run1_combine_bwa_chimeric.sam -o AML_001_run1_combine_
 rm AML_001_run1_combine_bwa_chimeric_temp.sam
 rm header
 # Extract fasta sequence of chimeric reads
-samtools fasta -s AML_001_run1_combine_bwa_chimeric.fasta AML_001_run1_combine_bwa_chimeric.bam
+samtools fasta AML_001_run1_combine_bwa_chimeric.bam > AML_001_run1_combine_bwa_chimeric.fasta
 
 # Blast chimeric reads againts hg38 
 
