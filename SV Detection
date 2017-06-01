@@ -1,6 +1,4 @@
 
-
-
 #Extract fasta from fast5 for AML001_run1 (pass_directory)
 for i in *; do h5dump -d /Analyses/Basecall_2D_000/BaseCalled_2D/Fastq $i | head -n 12 |tail -n +11 | perl -pe "s/.+\@/>/g" | perl -pe "s/^\s+//g" >> AML_001_run1_pass.fasta ;done
 
@@ -46,6 +44,8 @@ samtools fasta AML_001_run1_combine_bwa_chimeric.bam > AML_001_run1_combine_bwa_
 blastn -db ~/resources/blastDB/hg38.fa -query ./AML_001_run1_combine_bwa_chimeric.fasta -out AML_001_run1_combine_bwa_chimeric_blastn.txt -outfmt 6 -max_target_seqs 8 -culling_limit 1 -num_threads 60
 
 # Remove Satellite DNA reads and identify plausible SVs reads through python script
+Refer to ~/mytools/hg38_gap_dict.py
+Refer to ~/mytools/translocation detector_FINAL.py
 
 # Extract fasta sequence of SV reads
 
