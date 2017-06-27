@@ -49,6 +49,7 @@ Refer to ~/mytools/translocation detector_FINAL.py
 
 # Extract fasta sequence of SV reads
 more AML_001_run1_combine_bwa_chimeric_blastn_SV.txt | cut -f 1 | uniq > AML_001_run1_SV.txt
+cat AML_001_run1_SV.txt | while read line; do grep -m 1 -Pzo "^>$line\n.+" AML_001_run1_combine_bwa_chimeric.fasta ;done > AML_001_run1_SV.fasta
 
 # Map WGS reads to SV reads
 
