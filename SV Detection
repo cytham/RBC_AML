@@ -52,6 +52,8 @@ more AML_001_run1_combine_bwa_chimeric_blastn_SV.txt | cut -f 1 | uniq > AML_001
 cat AML_001_run1_SV.txt | while read line; do grep -m 1 -Pzo "^>$line\n.+" AML_001_run1_combine_bwa_chimeric.fasta ;done > AML_001_run1_SV.fasta
 
 # Map WGS reads to SV reads
+bowtie2-build --threads 20 AML_001_run1_SV.fasta AML_001_run1_SV
+bowtie2 --very-sensitive -p 20 --no-unal -x AML_001_run1_SV -1 ~/data/AML_BM_fresh/AML_001_WGS/PBMC_AML_BM_001_DHG09720_HFTN5ALXX_1.fq.gz -2 ~/data/AML_BM_fresh/AML_001_WGS/PBMC_AML_BM_001_DHG09720_HFTN5ALXX_2.fq.gz -S AML_001_run1_SV_WGS.sam
 
 # Extract WGS alignments with proper concordance and MAPQ >= 10
 
