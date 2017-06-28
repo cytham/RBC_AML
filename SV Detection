@@ -56,11 +56,10 @@ bowtie2-build --threads 20 AML_001_run1_SV.fasta AML_001_run1_SV
 bowtie2 --very-sensitive -p 20 --no-unal -x AML_001_run1_SV -1 ~/data/AML_BM_fresh/AML_001_WGS/PBMC_AML_BM_001_DHG09720_HFTN5ALXX_1.fq.gz -2 ~/data/AML_BM_fresh/AML_001_WGS/PBMC_AML_BM_001_DHG09720_HFTN5ALXX_2.fq.gz -S AML_001_run1_SV_WGS.sam
 
 # Extract WGS alignments with proper concordance and MAPQ >= 10
+samtools view -q 10 -f 2 -@ 10 -Sb AML_001_run1_SV_WGS.sam | samtools sort -@ 10 -n - -o AML_001_run1_SV_WGS_properpair_MQ10_namesort.bam
 
-samtools -q 10
-
-# Sort bam file according to read name
-samtools sort -@ 50 -n AML_001_run2_0_24_SV_WGS_properpair_MQ10.bam -o AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort.bam
+# ###################################Sort bam file according to read name
+#####################samtools sort -@ 50 -n AML_001_run2_0_24_SV_WGS_properpair_MQ10.bam -o AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort.bam
 
 # Extract fastq file from bam
 samtools fastq -@ 50 -1 AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_1.fastq AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort.bam
