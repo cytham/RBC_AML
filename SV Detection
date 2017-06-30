@@ -75,4 +75,4 @@ samtools view -F 2050 -q 10 -Sb AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesor
 bedtools bamtobed -i AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10.bam > AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10.bed
 
 # Calling peaks from bed file
-macs2 callpeak -t AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10.bed -f BED -g hs -n AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10 -q 0.01 --nomodel
+macs2 callpeak -t AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10.bed -f BED -g hs -n AML_001_run2_0_24_SV_WGS_properpair_MQ10_namesort_hg38_improper_MQ10 -q 0.05 --nomodel
