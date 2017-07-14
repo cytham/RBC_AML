@@ -45,7 +45,7 @@ blastn -db ~/resources/blastDB/hg38.fa -query ./AML_001_run1_combine_bwa_chimeri
 
 # Remove Satellite DNA reads and identify plausible SVs reads through python script
 Refer to ~/mytools/hg38_gap_dict.py
-Refer to ~/mytools/translocation detector_FINAL.py
+Refer to ~/mytools/translocation detector_FINAL.py (Remember to edit script to > or < instead of list)
 
 # Extract fasta sequence of SV reads
 more AML_001_run1_combine_bwa_chimeric_blastn_SV.txt | cut -f 1 | uniq > AML_001_run1_SV.txt
