@@ -1,0 +1,34 @@
+#Making genome index using LAST
+lastdb -P30 -uNEAR -R01 hg38a ../../hg38_analysisSet/hg38.analysisSet.fa
+
+#Determining alignment parameters for 2D and template reads separately
+last-train -P30 ../hg38a_lastdb/hg38a ~/data/AML_BM_fresh/minION_AML/AML_001_run1/new310517/last/AML_001_run1_combine_2d.fasta > AML_001_run1_combine_2d.par
+last-train -P30 ../hg38a_lastdb/hg38a ~/data/AML_BM_fresh/minION_AML/AML_001_run1/new310517/last/AML_001_run1_combine_templ.fasta > AML_001_run1_combine_templ.par
+
+#Aligning reads to genome
+lastal -P50 -p ~/resources/last/AML_001_hg38a_train/AML_001_run1_combine_2d.par ~/resources/last/hg38a_lastdb/hg38a AML_001_run1_combine_2d.fasta | last-split > AML_001_run1_combine_2d_last38a-total.maf
+lastal -P50 -p ~/resources/last/AML_001_hg38a_train/AML_001_run1_combine_templ.par ~/resources/last/hg38a_lastdb/hg38a AML_001_run1_combine_templ.fasta | last-split > AML_001_run1_combine_templ_last38a-total.maf
+
+#Converting file format
+maf-convert -n tab AML_001_run1_combine_2d_last38a-total.maf > AML_001_run1_combine_2d_last38a-total.tab
+maf-convert -n tab AML_001_run1_combine_templ_last38a-total.maf > AML_001_run1_combine_templ_last38a-total.tab
+
+#Parsing out read names of reads with more than 95% alignment coverage 
+awk -F"\t" '{if ($9/$11>0.95) print $7}' AML_001_run1_combine_2d_last38a-total.tab | sort | uniq > AML_001_run1_combine_2d_last38a-total_more0.95.txt
+
+#Parsing out read names of reads with less than 95% alignment coverage 
+awk -F"\t" '{if ($9/$11<=0.95) print $7}' AML_001_run1_combine_2d_last38a-total.tab | sort | uniq > AML_001_run1_combine_2d_last38a-total_lesseq0.95.txt
+
+#Parsing out read names that overlapped (due to multiple alignments for some reads)
+comm -12  AML_001_run1_combine_2d_last38a-total_lesseq0.95.txt AML_001_run1_combine_2d_last38a-total_more0.95.txt > diff
+
+#Parsing out final group of reads which may possess SVs
+awk -F"\t" '{if ($9/$11<=0.95) print $0}' AML_001_run1_combine_2d_last38a-total.tab|cut -f 2,3,4,5,7,8,9,10,11 | grep -w -v -f diff  > AML_001_run1_combine_2d_last38a-total_SV.tsv
+
+#Obtain fasta sequences of SV reads
+more AML_001_run1_combine_2d_last38a-total_SV.tsv | cut -f 5 | sort | uniq | while read line; do grep -w -m1 -A1 "$line" AML_001_run1_combine_2d.fasta ;done > AML_001_run1_combine_2d_last38a-total_SV.fasta
+
+#Remove unwanted files
+rm AML_001_run1_combine_2d_last38a-total_more0.95.txt AML_001_run1_combine_2d_last38a-total_lesseq0.95.txt diff
+
+
