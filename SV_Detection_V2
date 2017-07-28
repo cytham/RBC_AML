@@ -37,3 +37,8 @@ cat AML_001_run1_combine_2d_last38a-total_SV.fasta AML_001_run1_combine_templ_la
 #Map WGS reads to nanopore SV reads
 bowtie2-build --threads 20 AML_001_run1_combined_SV.fasta AML_001_run1_combined_SV
 bowtie2 -p 20 --no-unal -x ../AML_001_run1_combined_SV -1 ~/data/AML_BM_fresh/AML_001_WGS/PBMC_AML_BM_001_DHG09720_HFTN5ALXX_1.fq.gz -2 ~/data/AML_BM_fresh/AML_001_WGS/PBMC_AML_BM_001_DHG09720_HFTN5ALXX_2.fq.gz -S AML_001_run1_combined_SV_WGS-bow.sam
+
+| samtools view -@ 20 -Sb -f 2 - | samtools sort -@ 20 -n -o AML_001_run1_combined_SV_WGS-bow_namesort.bam
+
+#Extract fastq from bam
+samtools fastq -@ 20 -1 AML_001_run1_combined_SV_WGS-bow_namesort_1.bam -2 AML_001_run1_combined_SV_WGS-bow_namesort_2.bam AML_001_run1_combined_SV_WGS-bow_namesort.bam
