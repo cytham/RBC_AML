@@ -31,4 +31,9 @@ more AML_001_run1_combine_2d_last38a-total_SV.tsv | cut -f 5 | sort | uniq | whi
 #Remove unwanted files
 rm AML_001_run1_combine_2d_last38a-total_more0.95.txt AML_001_run1_combine_2d_last38a-total_lesseq0.95.txt diff
 
+#Combine 2d and template fasta
+cat AML_001_run1_combine_2d_last38a-total_SV.fasta AML_001_run1_combine_templ_last38a-total_SV.fasta > AML_001_run1_combined_SV.fasta
 
+#Map WGS reads to nanopore SV reads
+bowtie2-build --threads 20 AML_001_run1_combined_SV.fasta AML_001_run1_combined_SV
+bowtie2 -p 20 --no-unal -x ../AML_001_run1_combined_SV -1 ~/data/AML_BM_fresh/AML_001_WGS/PBMC_AML_BM_001_DHG09720_HFTN5ALXX_1.fq.gz -2 ~/data/AML_BM_fresh/AML_001_WGS/PBMC_AML_BM_001_DHG09720_HFTN5ALXX_2.fq.gz -S AML_001_run1_combined_SV_WGS-bow.sam
